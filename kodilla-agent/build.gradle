@@ -1,0 +1,47 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.kodilla.agent'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'net.bytebuddy:byte-buddy:1.14.15'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.jar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+
+	manifest {
+		attributes(
+				'Premain-Class': 'com.kodilla.agent.Agent',
+				'Can-Redefine-Classes': 'true',
+				'Can-Retransform-Classes': 'true'
+		)
+	}
+}
