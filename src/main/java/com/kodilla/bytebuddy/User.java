@@ -1,7 +1,9 @@
 package com.kodilla.bytebuddy;
 
+
 public class User {
-    public String doSomething() {
-        return "User is doing something";
+
+    public void doSomething() {
+        System.out.println("do something");
     }
 }

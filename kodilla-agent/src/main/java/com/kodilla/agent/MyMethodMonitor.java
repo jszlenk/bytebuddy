@@ -2,23 +2,16 @@ package com.kodilla.agent;
 
 import net.bytebuddy.asm.Advice;
 
-public class MyMethodMonitor {
+import net.bytebuddy.asm.Advice;
 
+public class MyMethodMonitor {
     @Advice.OnMethodEnter
-    public static long onEnter(@Advice.Origin("#m") String methodName,
-                               @Advice.Origin Class<?> clazz) {
-        long startTime = System.currentTimeMillis();
-        System.out.println("Entering method: " + clazz.getName() + "." + methodName);
-        System.out.println("Start time: " + startTime);
-        return startTime;
+    public static void enter(@Advice.Origin Class<?> clazz, @Advice.Origin("#m") String methodName) {
+        System.out.println("Entering method: " + methodName);
     }
 
     @Advice.OnMethodExit
-    public static void onExit(@Advice.Origin("#m") String methodName,
-                              @Advice.Origin Class<?> clazz,
-                              @Advice.Enter long startTime) {
-        long endTime = System.currentTimeMillis();
-        System.out.println("Exiting method: " + clazz.getName() + "." + methodName);
-        System.out.println("Execution time: " + (endTime - startTime) + " ms");
+    public static void exit() {
+        System.out.println("Exiting method.");
     }
 }
